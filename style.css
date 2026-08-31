@@ -1430,3 +1430,136 @@ p {
 .wa-send-btn:hover {
   background: #128C7E;
 }
+
+/* ANALYTICS & GROWTH INSIGHTS SECTION */
+.analytics-section {
+  padding: 6rem 0;
+  background-color: #ffffff;
+  background-image: 
+    radial-gradient(rgba(0, 168, 198, 0.12) 1.5px, transparent 1.5px),
+    linear-gradient(to right, rgba(0, 168, 198, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px, 60px 60px;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
+}
+
+@media (max-width: 900px) {
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.analytics-card {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.analytics-badge-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.analytics-platform-badge {
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bg-meta {
+  background: rgba(24, 119, 242, 0.1);
+  color: #1877F2;
+}
+
+.bg-google {
+  background: rgba(234, 67, 53, 0.1);
+  color: #ea4335;
+}
+
+.analytics-status-pill {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--feather-deep-teal);
+  background: rgba(0, 168, 198, 0.08);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+}
+
+.analytics-img-wrap {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.analytics-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.analytics-card:hover .analytics-img-wrap img {
+  transform: scale(1.04);
+}
+
+.analytics-content {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.analytics-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.analytics-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.analytics-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+  margin-top: auto;
+}
+
+.kpi-box {
+  background: #f8fafc;
+  border: 1px solid var(--border-glass);
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+.kpi-val {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--feather-deep-teal);
+  line-height: 1.1;
+  margin-bottom: 0.2rem;
+}
+
+.kpi-label {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-weight: 600;
+}
