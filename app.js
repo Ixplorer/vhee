@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initScrollAnimations();
   initWhatsAppWidget();
+  initHeroSlider();
 });
 
 /* Navbar Scroll Effect & Active Section Tracker */
@@ -328,4 +329,125 @@ function initWhatsAppWidget() {
     const waUrl = `https://wa.me/${phone}?text=${encodedMsg}`;
     window.open(waUrl, '_blank');
   }
+}
+
+/* Full Screen Hero Slider Controller */
+function initHeroSlider() {
+  const slides = document.querySelectorAll('.hero-slider .slide');
+  const dots = document.querySelectorAll('.slider-dots .dot');
+  const prevBtn = document.getElementById('sliderPrevBtn');
+  const nextBtn = document.getElementById('sliderNextBtn');
+  const sliderContainer = document.getElementById('heroSlider');
+
+  if (!slides.length) return;
+
+  let currentSlide = 0;
+  let slideInterval = null;
+
+  function goToSlide(index) {
+    slides[currentSlide].classList.remove('active');
+    if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
+
+    currentSlide = (index + slides.length) % slides.length;
+
+    slides[currentSlide].classList.add('active');
+    if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+
+    // Trigger stat counters if slide has counters
+    const activeCounters = slides[currentSlide].querySelectorAll('.stat-number[data-target]');
+    activeCounters.forEach(counter => {
+      const target = parseInt(counter.getAttribute('data-target'));
+      const prefix = counter.getAttribute('data-prefix') || '';
+      const suffix = counter.getAttribute('data-suffix') || '';
+      let count = 0;
+      const step = Math.max(1, Math.ceil(target / 40));
+      const timer = setInterval(() => {
+        count += step;
+        if (count >= target) {
+          counter.textContent = `${prefix}${target}${suffix}`;
+          clearInterval(timer);
+        } else {
+          counter.textContent = `${prefix}${count}${suffix}`;
+        }
+      }, 30);
+    });
+  }
+
+  function nextSlide() {
+    goToSlide(currentSlide + 1);
+  }
+
+  function prevSlide() {
+    goToSlide(currentSlide - 1);
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    slideInterval = setInterval(nextSlide, 6000);
+  }
+
+  function stopAutoplay() {
+    if (slideInterval) clearInterval(slideInterval);
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      nextSlide();
+      startAutoplay();
+    });
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      prevSlide();
+      startAutoplay();
+    });
+  }
+
+  dots.forEach((dot, idx) => {
+    dot.addEventListener('click', () => {
+      goToSlide(idx);
+      startAutoplay();
+    });
+  });
+
+  if (sliderContainer) {
+    sliderContainer.addEventListener('mouseenter', stopAutoplay);
+    sliderContainer.addEventListener('mouseleave', startAutoplay);
+
+    // Touch Swipe Support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    sliderContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    sliderContainer.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 40) {
+        nextSlide();
+        startAutoplay();
+      } else if (touchEndX - touchStartX > 40) {
+        prevSlide();
+        startAutoplay();
+      }
+    }, { passive: true });
+  }
+
+  // Keyboard Arrow Navigation
+  document.addEventListener('keydown', (e) => {
+    const heroSec = document.getElementById('hero');
+    if (heroSec && window.scrollY < heroSec.offsetHeight) {
+      if (e.key === 'ArrowRight') {
+        nextSlide();
+        startAutoplay();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+        startAutoplay();
+      }
+    }
+  });
+
+  startAutoplay();
 }
